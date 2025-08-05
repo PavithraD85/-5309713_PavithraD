@@ -1,4 +1,4 @@
-1.  PLUS MINUS
+1.  Min - Max Sum
 
 
 #include <stdio.h>
