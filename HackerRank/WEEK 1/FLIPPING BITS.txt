@@ -1,6 +1,3 @@
-FLIPPING BITS
-
-
 #include <stdio.h>
 
 long flippingBits(long n) {
