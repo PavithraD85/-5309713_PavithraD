@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+char* pangrams(char* s) {
+    int letters[26] = {0};  
+    int i;
+
+    for (i = 0; s[i] != '\0'; i++) {  
+        if (isalpha(s[i])) { 
+            char lower = tolower(s[i]);  
+            letters[lower - 'a'] = 1;  
+        }
+    }
+
+    for (i = 0; i < 26; i++) {  
+        if (letters[i] == 0) {
+            return "not pangram"; 
+        }
+    }
+
+    return "pangram"; 
+}
+
+
+int main() {
+    char input[1000];
+
+    printf("Enter a sentence:\n");
+    fgets(input, sizeof(input), stdin);  
+
+
+    size_t len = strlen(input);
+    if (len > 0 && input[len - 1] == '\n') {
+        input[len - 1] = '\0';
+    }
+
+     printf("%s\n", pangrams(input));
+
+    return 0;
+}
