@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int* dynamicArray(int n, int queries_rows, int queries_columns, int** queries, int* result_count) {
+   
+    int **seq = malloc(n * sizeof(int*));  
+    int *seqSizes = calloc(n, sizeof(int)); 
+    int *seqCap = calloc(n, sizeof(int));   
+    int lastAnswer = 0;
+
+      int *results = malloc(queries_rows * sizeof(int));
+    int resIndex = 0;
+
+    for (int i = 0; i < queries_rows; i++) {
+        int type = queries[i][0];
+        int x = queries[i][1];
+        int y = queries[i][2];
+
+        int idx = (x ^ lastAnswer) % n; 
+        if (type == 1) {
+                        if (seqSizes[idx] == seqCap[idx]) {
+                seqCap[idx] = seqCap[idx] == 0 ? 2 : seqCap[idx] * 2;
+                seq[idx] = realloc(seq[idx], seqCap[idx] * sizeof(int));
+            }
+            seq[idx][seqSizes[idx]++] = y;
+
+        } else if (type == 2) {
+            int pos = y % seqSizes[idx];
+            lastAnswer = seq[idx][pos];
+            results[resIndex++] = lastAnswer;
+        }
+    }
+
+    
+    for (int i = 0; i < n; i++) {
+        free(seq[i]);
+    }
+    free(seq);
+    free(seqSizes);
+    free(seqCap);
+
+    *result_count = resIndex;
+    return results;
+}
