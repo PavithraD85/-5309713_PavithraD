@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct SinglyLinkedListNode {
+    int data;
+    struct SinglyLinkedListNode* next;
+} SinglyLinkedListNode;
+
+SinglyLinkedListNode* create_node(int data) {
+    SinglyLinkedListNode* newNode = (SinglyLinkedListNode*)malloc(sizeof(SinglyLinkedListNode));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void print_list(SinglyLinkedListNode* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+SinglyLinkedListNode* reverse(SinglyLinkedListNode* head) {
+    SinglyLinkedListNode* prev = NULL;
+    SinglyLinkedListNode* current = head;
+    SinglyLinkedListNode* next = NULL;
+
+    while (current != NULL) {
+        next = current->next;     
+        current->next = prev;     
+        prev = current;           
+        current = next;           
+    }
+    return prev; // new head
+}
+
+int main() {
+    int n, value;
+    SinglyLinkedListNode* head = NULL;
+    SinglyLinkedListNode* tail = NULL;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+
+    printf("Enter %d elements:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &value);
+        SinglyLinkedListNode* newNode = create_node(value);
+        if (head == NULL) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    printf("Original list: ");
+    print_list(head);
+
+    head = reverse(head);
+
+    printf("Reversed list: ");
+    print_list(head);
+
+    return 0;
+}
