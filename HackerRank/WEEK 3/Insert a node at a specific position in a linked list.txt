@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct SinglyLinkedListNode {
+    int data;
+    struct SinglyLinkedListNode* next;
+} SinglyLinkedListNode;
+
+SinglyLinkedListNode* createNode(int data) {
+    SinglyLinkedListNode* node = (SinglyLinkedListNode*)malloc(sizeof(SinglyLinkedListNode));
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+SinglyLinkedListNode* insertNodeAtPosition(SinglyLinkedListNode* head, int data, int position) {
+    SinglyLinkedListNode* newNode = createNode(data);
+
+       if (position == 0) {
+        newNode->next = head;
+        return newNode;
+    }
+
+    SinglyLinkedListNode* current = head;
+    for (int i = 0; i < position - 1 && current != NULL; i++) {
+        current = current->next;
+    }
+
+    if (current != NULL) {
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+
+    return head;
+}
+
+
+void printList(SinglyLinkedListNode* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+
+int main() {
+    int n, data, pos;
+    scanf("%d", &n);
+
+    SinglyLinkedListNode* head = NULL;
+    SinglyLinkedListNode* tail = NULL;
+
+
+    for (int i = 0; i < n; i++) {
+        int val;
+        scanf("%d", &val);
+        SinglyLinkedListNode* node = createNode(val);
+
+        if (head == NULL) {
+            head = tail = node;
+        } else {
+            tail->next = node;
+            tail = node;
+        }
+    }
+    scanf("%d", &data);
+    scanf("%d", &pos);
+
+
+    head = insertNodeAtPosition(head, data, pos);
+
+
+    printList(head);
+
+    return 0;
+}
